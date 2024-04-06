@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 
 import os 
 import time
@@ -55,7 +55,25 @@ def cloudflarebypass(driver):
     driver.get('https://coinvote.cc/')
 
     driver.execute_script("window.open('https://coinvote.cc/', '_blank')")
-    time.sleep(2)
+    time.sleep(6)
+    driver.switch_to.default_content()
+    verify_iframe = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.TAG_NAME, 'iframe'))
+    )
+    #driver.find_element(By.TAG_NAME, 'iframe')
+    driver.switch_to.frame(verify_iframe)
+
+    # Finding the verify button
+    verify_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, 'ctp-checkbox-label'))
+    )
+
+    # Clicking the verify button
+    verify_button.click()
+
+    # Switching back to the default content
+    driver.switch_to.default_content()
+    time.sleep(5)
     maxtries=0
     while True:
         driver.switch_to.window(driver.window_handles[-1])
@@ -148,9 +166,9 @@ def Coinvote():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--headless")
+        #chrome_options.add_argument("--headless")
         #chrome_options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Chrome(options=chrome_options)
+        driver = webdriver.Firefox(options=chrome_options)
         print(f'-------------------')
         cloudflarebypass(driver)
         driver.switch_to.window(driver.window_handles[0])
@@ -203,5 +221,5 @@ def Coinvote():
         return False
 
 
-
+Coinvote()
 

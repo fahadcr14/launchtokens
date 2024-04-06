@@ -164,11 +164,12 @@ def Gettokensinfo(driver):
 
 def Coinvote():
     try:
-        chrome_options = Options()
-        chrome_options.add_argument("--no-sandbox")
-        #chrome_options.add_argument("--headless")
-        #chrome_options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Firefox(options=chrome_options)
+        firefox_options = Options()
+        firefox_options.headless=True
+        firefox_options.add_argument("--no-sandbox")
+        #firefox_options.add_argument("--headless")
+        firefox_options.add_argument('--disable-dev-shm-usage')
+        driver = webdriver.Firefox(options=firefox_options)
         print(f'-------------------')
         cloudflarebypass(driver)
         driver.switch_to.window(driver.window_handles[0])

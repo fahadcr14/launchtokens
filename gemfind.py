@@ -48,7 +48,7 @@ def GetAllCoins(driver):
                 driver.execute_script("arguments[0].scrollIntoView();", coin)
 
                 days=coin.find_element(By.CLASS_NAME,'days').text
-                print(days)
+                #print(days)
                 if days.startswith('Launch'):
                     token_url=coin.get_attribute('data-href')
                     tokens_urls.append(token_url)
@@ -113,7 +113,7 @@ def Gemfind():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        #chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--headless=new")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
         driver.get('https://gemfinder.cc/')
@@ -135,3 +135,4 @@ def Gemfind():
         return False
 
 
+Gemfind()

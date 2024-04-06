@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.firefox.options import Options
+#from selenium.webdriver.firefox.options import Options
 
 #from selenium.webdriver.chrome.options import Options
 
@@ -241,7 +241,7 @@ def Coinsniper():
         chrome_options.add_argument("--no-sandbox")
         #chrome_options.add_argument("--headless=new")
         chrome_options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Firefox(options=chrome_options)
+        driver = webdriver.Chrome(options=chrome_options)
 
 
         # Open a webpage that requires cookies

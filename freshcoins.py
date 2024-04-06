@@ -120,7 +120,7 @@ def GetTokeninfo(driver):
 
 
 def Freshcoins():
-    #try:
+    try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
         #chrome_options.add_argument("--headless=new")
@@ -129,7 +129,8 @@ def Freshcoins():
 
         # Load the webpage
         driver.get('https://www.freshcoins.io/')
-        recently_added_tab = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'tabs-57--tab-3')))
+        buttons_container=WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'chakra-tabs__tablist.css-1bhuktr')))
+        recently_added_tab = WebDriverWait(buttons_container, 10).until(EC.presence_of_all_elements_located((By.TAG_NAME, 'button')))[-1]
         recently_added_tab.click()
 
         # Find the next button
@@ -149,8 +150,7 @@ def Freshcoins():
                 print(f'Fetching token again')
         driver.quit()
         return True
-    #except Exception as e:
+    except Exception as e:
         print(f'Error Occured in Freshcoins {e}')
         return False
 
-Freshcoins()

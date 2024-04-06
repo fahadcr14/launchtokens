@@ -1,9 +1,9 @@
-from coinvotecc import Coinvote
+#from coinvotecc import Coinvote
 from cntokens import Cointoken
 from coinmooner import Coinmooner
 from coinscope import CoinScope
 from coinsgod import CoinGod
-from coinsniper import Coinsniper
+#from coinsniper import Coinsniper
 from freshcoins import Freshcoins
 from gemfind import Gemfind
 from moontok import Moontok
@@ -21,8 +21,8 @@ if __name__=="__main__":
         print(f'CoinScope is Finished')
     if CoinGod():
         print(f'CoinGod is Finished')
-    if Coinsniper():
-        print(f'Coinsniper is Finished')
+    """if Coinsniper():
+        print(f'Coinsniper is Finished')"""
     if Freshcoins():
         print(f'Freshcoins is Finished')
     if Gemfind():

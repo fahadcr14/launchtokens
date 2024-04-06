@@ -107,7 +107,8 @@ def GetTokeninfo(driver,token_url):
             write_to_excel(data)
             return True
 
-
+tokens_urls=[]
+offset=0
 def Gemfind():
     try:
         chrome_options = Options()
@@ -116,8 +117,7 @@ def Gemfind():
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
         driver.get('https://gemfinder.cc/')
-        tokens_urls=[]
-        offset=0
+        
         
         time.sleep(5)
         alltimebutton=driver.find_element(By.XPATH,'/html/body/section/div[3]/ul/li[1]/a')

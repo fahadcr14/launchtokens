@@ -147,4 +147,4 @@ def CoinGod():
     #except Exception as e:
         print(f'Error Occured in CoinsGod {e}')
         return False
-CoinGod()
+#CoinGod()

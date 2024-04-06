@@ -234,14 +234,14 @@ def verifier(driver,pg=1):
 def Coinsniper():
     # Set up Chrome options
     try:
-        chrome_options = Options()
-        chrome_options.add_argument(f'--incognito')
+        firefox_options = Options()
+        firefox_options.add_argument(f'--incognito')
         #chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
         #chrome_options.add_experimental_option('useAutomationExtension', False)
-        chrome_options.add_argument("--no-sandbox")
-        #chrome_options.add_argument("--headless=new")
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Firefox(options=chrome_options)
+        firefox_options.add_argument("--no-sandbox")
+        firefox_options.add_argument("--headless")
+        firefox_options.add_argument('--disable-dev-shm-usage')
+        driver = webdriver.Firefox(options=firefox_options)
 
 
         # Open a webpage that requires cookies

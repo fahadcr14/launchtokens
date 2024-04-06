@@ -108,9 +108,22 @@ def cloudflarebypass(driver,pg=1):
 
     driver.execute_script(f"window.open('https://coinsniper.net/presales?page={pg}', '_blank')")
     time.sleep(6)
-    verify_iframe=driver.find_element(By.TAG_NAME,'iframe')
+    driver.switch_to.default_content()
+    verify_iframe = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.TAG_NAME, 'iframe'))
+    )
+    #driver.find_element(By.TAG_NAME, 'iframe')
     driver.switch_to.frame(verify_iframe)
-    verify_button=driver.find_element(By.CLASS_NAME,'ctp-checkbox-label').click()
+
+    # Finding the verify button
+    verify_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, 'ctp-checkbox-label'))
+    )
+
+    # Clicking the verify button
+    verify_button.click()
+
+    # Switching back to the default content
     driver.switch_to.default_content()
     time.sleep(5)
     maxtries=0

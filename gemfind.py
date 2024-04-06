@@ -21,10 +21,10 @@ def launch_verifier(launch_date):
         difference = upcoming_launch_date - today
 
         if 0 <= difference.days <= 30:
-            print("The launch date is within 1 month from today.")
+            print("Gemfind... The launch date is within 1 month from today.")
             return upcoming_launch_date.strftime('%d %B %Y')
         else:
-            print("The launch date is not within 1 month from today.")
+            print("Gemfind... The launch date is not within 1 month from today.")
             return False
     except :
         return False
@@ -113,9 +113,10 @@ def Gemfind():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
+        driver.set_window_size(1920, 1080)  # Set window size to 1920x1080 pixels
         driver.get('https://gemfinder.cc/')
         
         
@@ -135,4 +136,4 @@ def Gemfind():
         return False
 
 
-Gemfind()
+#Gemfind()

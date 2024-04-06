@@ -123,5 +123,6 @@ def WriteTokens():
 def Cointoken():
     if GetAllTokens():
         WriteTokens()
+        return True
 
 

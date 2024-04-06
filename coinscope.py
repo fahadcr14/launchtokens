@@ -54,10 +54,10 @@ def launch_verifier(launch_date):
         difference = upcoming_launch_date - today
 
         if -1 <= difference.days <= 30:
-            #print("The launch date is within 1 month from today.")
+            print("Coinscope.... The launch date is within 1 month from today.")
             return upcoming_launch_date.strftime('%d %B %Y')
         else:
-            #print(f"The launch date is not within 1 month from today. {upcoming_launch_date.strftime('%b %d %Y')} difference {difference.days}")
+            print(f"Coinscope.... The launch date is not within 1 month from today. {upcoming_launch_date.strftime('%b %d %Y')} difference {difference.days}")
             return False
     except Exception as e:
         print(f'Launch date {launch_date}   :::{e}')
@@ -110,9 +110,10 @@ def CoinScope():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        #chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
+        
         driver.get('https://www.coinscope.co/presale')
         totalpages = int(WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'StyledButtonKind-sc-1vhfpnt-0.iLkOuo.StyledPageControl__StyledPaginationButton-sc-1vlfaez-0.kPuPyK')))[-1].text)
 
@@ -121,13 +122,14 @@ def CoinScope():
                 driver.get(f'https://www.coinscope.co/presale?page={pg}')
                 time.sleep(4)
                 GetTokensinfo(driver)
-            except:
-                pass
+                print(f'DOne  {pg }page --{driver.current_url}---------')
+            except Exception as e:
+                print(f'No page loading {e}')
         driver.quit()
         return True
     except Exception as e:
         print(f'Error Occured in Coinscope {e}')
         return False
-    
+#CoinScope()
 
 

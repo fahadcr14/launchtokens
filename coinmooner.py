@@ -25,10 +25,10 @@ def launch_verifier(pre_sale_start_date):
 
         if 0 <= difference.days <= 30:
             #write_to_excel(data)
-            print("The launch date is within 1 month from today.")
+            print("The launch date is within 1 month from today. Coinmooner...")
             return launch_date.strftime('%d %B %Y')
         else:
-            print("The launch date is not within 1 month from today.")
+            print("The launch date is not within 1 month from today. Coinmooner...")
             return False
     else:
         print(f'date format not matched')
@@ -43,6 +43,8 @@ def GetTokeninfo(driver,token_url):
     driver.execute_script(f"window.open('{token_url}', '_blank')")
 
     driver.switch_to.window(driver.window_handles[-1])
+    driver.set_window_size(1920, 1080)
+
 
     try:
         token_parent_element = WebDriverWait(driver, 10).until(
@@ -72,6 +74,7 @@ def GetTokeninfo(driver,token_url):
             'upcoming_launch':presale_date
         }
         write_to_excel(data)
+        print(data)
     driver.close()
     driver.switch_to.window(driver.window_handles[0])
 
@@ -99,19 +102,23 @@ def Tokens(driver):
 
 def Coinmooner():
     try:
-        
+        user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+
         chrome_options = Options()
+        chrome_options.add_argument(f"user-agent={user_agent}")
+
         chrome_options.add_argument("--no-sandbox")
-        #chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
+        driver.set_window_size(1920, 1080)
         driver.get('https://coinmooner.com/')
         try:
             driver.find_element(By.XPATH,'//*[@id="__next"]/div/button[1]').click()
         except:
             pass
         filter_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, '#__next > main > section.mb-5.w-full > div.mb-3.mt-2.grid.w-full.grid-cols-2.lg\:grid-cols-3.lg\:grid-cols-\[110px_1fr_138px\] > button'))
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/section[5]/div[1]/button'))
         )
         driver.execute_script("arguments[0].scrollIntoView();", filter_button)
 
@@ -140,7 +147,6 @@ def Coinmooner():
     except Exception as e:
         print(f'Error Occured in Coinmooner :{e}')
         return False
-
 
 
 

@@ -25,10 +25,10 @@ def launch_verifier(launch_date):
 
         if 0 <= difference.days <= 30:
             #write_to_excel(data)
-            print("The launch date is within 1 month from today.")
+            print("Coingod... The launch date is within 1 month from today.")
             return True
         else:
-            print("The launch date is not within 1 month from today.")
+            print("Coingod... The launch date is not within 1 month from today.")
             return False
     except Exception as e:
         print(e)
@@ -94,10 +94,10 @@ def GetAllTokens(driver):
 
 
 def CoinGod():
-    #try:
+    try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
         
@@ -144,7 +144,7 @@ def CoinGod():
             GetTokenInfo(driver,data)
         driver.quit()
         return True
-    #except Exception as e:
+    except Exception as e:
         print(f'Error Occured in CoinsGod {e}')
         return False
-#CoinGod()
+CoinGod()

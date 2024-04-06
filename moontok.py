@@ -12,29 +12,7 @@ import time
 import re
 import pandas as pd
 
-
-
-
-
-def write_to_excel(data):
-    filename = f'cryptotokens.xlsx' 
-    new_row = pd.DataFrame([data])
-
-    if os.path.isfile(filename):
-        df = pd.read_excel(filename)
-        if 'token' in df.columns:
-            # Check for duplicates based on job_title
-            if data['token'] in df['token'].values:
-                duplicate_index = df.index[df['token'] == data['token']].tolist()
-                df.loc[duplicate_index[0]] = new_row.iloc[0]
-                df.to_excel(filename, index=False)  # Save updated DataFrame to Excel
-                return
-        updated_df = pd.concat([df, new_row], ignore_index=True)
-        updated_df.to_excel(filename, index=False)
-
-    else:
-        # Write DataFrame to Excel
-        new_row.to_excel(filename, index=False)
+from writexlsx import write_to_excel
 
 
 
@@ -56,10 +34,10 @@ def launch_verifier(pre_sale_start_date):
 
     if 0 <= difference.days <= 30:
         #write_to_excel(data)
-        print("The launch date is within 1 month from today.")
-        return True
+        print("Moontok... The launch date is within 1 month from today.")
+        return launch_date.strftime('%d %B %Y')
     else:
-        print("The launch date is not within 1 month from today.")
+        print("Moontok...  The launch date is not within 1 month from today.")
         return False
 
 
@@ -70,6 +48,8 @@ def GetTokeninfo(driver,data):
     driver.execute_script(f"window.open('{token_url}', '_blank')")
 
     driver.switch_to.window(driver.window_handles[-1])
+    driver.set_window_size(1920, 1080)  # Set window size to 1920x1080 pixels
+
     try:
         chain_name_element = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.CLASS_NAME, 'moontok-Text-root.moontok-1qael7q'))
@@ -88,14 +68,16 @@ def GetTokeninfo(driver,data):
     except:
         pre_sale_start_date=''
     if pre_sale_start_date:
-        if launch_verifier(pre_sale_start_date):
+        presale_formated_date=launch_verifier(pre_sale_start_date)
+        if presale_formated_date:
 
             data={'token':token_full_name,
                 'token_url':token_url,
                 'chain_name':chain_name,
                 'status':'presale',
-                'upcoming_launch':pre_sale_start_date}
+                'upcoming_launch':presale_formated_date}
             write_to_excel(data)
+            print(data)
     driver.close()
     driver.switch_to.window(driver.window_handles[0])
 
@@ -145,9 +127,12 @@ def Moontok():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        #chrome_options.add_argument("--headless=new")
+        
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
+        driver.set_window_size(1920, 1080)  # Set window size to 1920x1080 pixels
+
         driver.get('https://www.moontok.io/listings/presales')
         while True:
 
@@ -169,4 +154,4 @@ def Moontok():
         print(f'Error Occured in Moontok : {e}')
         return False
 
-
+Moontok()

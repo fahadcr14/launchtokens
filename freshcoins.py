@@ -52,10 +52,10 @@ def launch_verifier(launch_date):
         difference = upcoming_launch_date - today
 
         if -1 <= difference.days <= 30:
-            print("The launch date is within 1 month from today.")
+            print("Freshcoin... The launch date is within 1 month from today.")
             return upcoming_launch_date.strftime('%d %B %Y')
         else:
-            print(f"The launch date is not within 1 month from today. {upcoming_launch_date.strftime('%b %d %Y')} difference {difference.days}")
+            print(f"Freshcoin... The launch date is not within 1 month from today. {upcoming_launch_date.strftime('%b %d %Y')} difference {difference.days}")
             return False
     except Exception as e:
         print(f'Launch date {launch_date}   :::{e}')
@@ -123,11 +123,14 @@ def Freshcoins():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
 
         # Load the webpage
+        driver.set_window_size(1920, 1080)  # Set window size to 1920x1080 pixels
+
+
         driver.get('https://www.freshcoins.io/')
         buttons_container=WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'chakra-tabs__tablist.css-1bhuktr')))
         recently_added_tab = WebDriverWait(buttons_container, 10).until(EC.presence_of_all_elements_located((By.TAG_NAME, 'button')))[-1]
@@ -144,7 +147,7 @@ def Freshcoins():
 
                 # Check if the button is disabled
                 if next_button.get_attribute('disabled'):
-                    print('Yes, the button is disabled')
+                    print('Finished Freshcoins.io')
                     break
             else:
                 print(f'Fetching token again')
@@ -154,4 +157,4 @@ def Freshcoins():
         print(f'Error Occured in Freshcoins {e}')
         return False
 
-Freshcoins()
+#Freshcoins()

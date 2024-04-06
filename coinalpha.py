@@ -21,10 +21,10 @@ def launch_verifier(launch_date):
         difference = upcoming_launch_date - today
 
         if -1 <= difference.days <= 30:
-            print("The launch date is within 1 month from today. ")
+            print("Coinalpha ....The launch date is within 1 month from today.  ")
             return True
         else:
-            print(f"The launch date is not within 1 month from today. {launch_date} difference {difference.days}")
+            print(f"Coinalpha .... The launch date is not within 1 month from today. {launch_date} difference {difference.days}")
             return False
     except Exception as e:
         print(f'Launch date {launch_date}   :::{e}')
@@ -70,6 +70,7 @@ def GetTokeninfo(driver):
 
             }
             write_to_excel(data)
+            print(data)
             return True
     except Exception as e:
         print(f'Error fetching GetTokensinfo: {e}')
@@ -89,9 +90,10 @@ def CoinALPHA():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        #chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
+        driver.set_window_size(1920, 1080)
         driver.get('https://coinalpha.app/recently-add-list.html?page=1')
         try:
             close_ad=WebDriverWait(driver, 10).until(
@@ -147,6 +149,7 @@ def CoinALPHA():
                 driver.execute_script(f"window.open('{url}', '_blank')")
 
                 driver.switch_to.window(driver.window_handles[-1])
+                driver.set_window_size(1920, 1080)
                 GetTokeninfo(driver)
                 driver.close()
                 driver.switch_to.window(driver.window_handles[0])
@@ -157,6 +160,6 @@ def CoinALPHA():
         return False
 
 
-
+#CoinALPHA()
 
 

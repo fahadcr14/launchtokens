@@ -14,11 +14,12 @@ import os
 import time
 import re
 import pandas as pd
+from writexlsx import write_to_excel
 
 
 
 
-def write_to_excel(data):
+"""def write_to_excel(data):
     filename = f'cryptotokens.xlsx' 
     new_row = pd.DataFrame([data])
 
@@ -37,7 +38,7 @@ def write_to_excel(data):
     else:
         # Write DataFrame to Excel
         new_row.to_excel(filename, index=False)
-
+"""
 
 
 
@@ -120,9 +121,9 @@ def TokenDateTime(driver,token_url,data):
             difference = launch_date - today
             if difference <= timedelta(days=30) and difference>=timedelta(days=0):
                 write_to_excel(data)
-                print("The launch date is within 1 month from today.")
+                print("Coinvotecc... The launch date is within 1 month from today.")
             else:
-                print("The launch date is not within 1 month from today.")
+                print("Coinvotecc...  The launch date is not within 1 month from today.")
     except Exception as e:
         print(f'Error in date {e}')
         return False
@@ -222,5 +223,5 @@ def Coinvote():
         return False
 
 
-Coinvote()
+#Coinvote()
 

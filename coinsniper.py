@@ -32,6 +32,9 @@ def parse_time_delta(delta_str):
     # On basis of unit and create a timedelta so we can get diff time
     if unit.startswith("day"):
         delta = timedelta(days=amount)
+    elif unit.startswith("hour"):
+        delta = timedelta(hours=amount)
+    
     elif unit.startswith("month"):
         delta = timedelta(days=amount * 30)
     elif unit.startswith("year"):
@@ -105,7 +108,11 @@ def cloudflarebypass(driver,pg=1):
 
     driver.execute_script(f"window.open('https://coinsniper.net/presales?page={pg}', '_blank')")
     time.sleep(6)
-    
+    verify_iframe=driver.find_element(By.TAG_NAME,'iframe')
+    driver.switch_to.frame(verify_iframe)
+    verify_button=driver.find_element(By.CLASS_NAME,'ctp-checkbox-label').click()
+    driver.switch_to.default_content()
+    time.sleep(5)
     maxtries=0
     while True:
         driver.switch_to.window(driver.window_handles[-1])
@@ -113,7 +120,7 @@ def cloudflarebypass(driver,pg=1):
         if not driver.title.startswith('Just'):
             break
         elif not driver.title.startswith('Attention'):
-            return
+            break
         elif maxtries>5:
             driver.execute_script(f"window.open('https://coinsniper.net/presales?page={pg}', '_blank')")
 

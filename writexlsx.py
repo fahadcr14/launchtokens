@@ -12,7 +12,7 @@ def read_excel_and_replace_sheet():
         spreadsheet_id = "1nrCJJHTGssyF45m7ujj1BXG2YBLRVHg9_qpMyWiid7I"
         range_name = "Sheet1"  
         # Authenticate with Google Sheets API
-        credentials = service_account.Credentials.from_service_account_file(r"key.json", scopes=["https://www.googleapis.com/auth/spreadsheets"])
+        credentials = service_account.Credentials.from_service_account_file(r"keys.json", scopes=["https://www.googleapis.com/auth/spreadsheets"])
         service = build("sheets", "v4", credentials=credentials)
 
         # Convert DataFrame to values list

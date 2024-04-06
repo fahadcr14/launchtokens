@@ -120,7 +120,7 @@ def GetTokeninfo(driver):
 
 
 def Freshcoins():
-    try:
+    #try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--headless=new")
@@ -149,8 +149,8 @@ def Freshcoins():
                 print(f'Fetching token again')
         driver.quit()
         return True
-    except Exception as e:
+    #except Exception as e:
         print(f'Error Occured in Freshcoins {e}')
         return False
 
-
+Freshcoins()

@@ -10,8 +10,9 @@ from moontok import Moontok
 from coinalpha import CoinALPHA
 
 if __name__=="__main__":
-    if Coinvote():
-        print(f'Coinvote is Finished')
+    #if Coinvote():
+    #    print(f'Coinvote is Finished')
+        
     if Cointoken():
         print(f'Cointoken is Finished')
     if Coinmooner():

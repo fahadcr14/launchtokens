@@ -6,12 +6,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
-
+from bs4 import BeautifulSoup
 import os 
 import time
 import re
 from writexlsx import write_to_excel
 
+tokens_urls=[]
 
 def launch_verifier(launch_date):
     try:
@@ -40,6 +41,8 @@ def GetTokenInfo(driver,data):
     try:
         token_url=data['token_url']
         driver.get(token_url)
+        driver.maximize_window()
+
         time.sleep(2)
         chain_name=WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'mr-3'))
@@ -60,46 +63,71 @@ def GetTokenInfo(driver,data):
 
 def GetAllTokens(driver):
     global tokens_urls
-    tokenTable=driver.find_element(By.ID,'presale-content')
-    tokens_list=driver.find_elements(By.CLASS_NAME,'singlecoinlink.p-2.align-items-center')
+    page_source = driver.page_source
 
-    token_body=tokens_list[0].find_element(By.CLASS_NAME,'media-body')
-    token_name=token_body.find_element(By.TAG_NAME,'p').text
-    token_symbol=token_body.find_element(By.TAG_NAME,'small').text
-    token_full_name=token_name+' $'+token_symbol
+    # Create a BeautifulSoup object
+    soup = BeautifulSoup(page_source, 'html.parser')
+
+    # Find all token elements
+    tokens_list = soup.find_all('div', class_='singlecoinlink p-2 align-items-center')
+
     for token in tokens_list:
-        launch_check=token.find_element(By.CLASS_NAME,'col-2.d-none.d-lg-block.age-date.text-center.coin-redirect').text
+        # Find token body
+        token_body = token.find('div', class_='media-body')
+        token_name = token_body.find('p').get_text(strip=True)
+        token_symbol = token_body.find('small').get_text(strip=True)
+        token_full_name = f"{token_name} ${token_symbol}"
+        
+        # Find launch check
+        launch_check = token.find('div', class_='col-2 d-none d-lg-block age-date text-center coin-redirect').get_text(strip=True)
+        
         if launch_check.startswith('Launching in'):
-            token_url=token.get_attribute('data-href')
-            data={
-                'token':token_full_name,'token_url':token_url
-            }
+            token_url = token.get('data-href')
+            data = {'token': token_full_name, 'token_url': token_url}
             tokens_urls.append(data)
             
+            print(token_url)
+            
             print(f'{token_url}')
+            
             
 
 
 def CoinGod():
-    try:
+    #try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--headless=new")
         chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
-        tokens_urls=[]
+        
         driver.get('https://coinsgods.com/')
+        driver.maximize_window()
         while True:
             try:
-                presale_button=WebDriverWait(driver, 10).until(
+                """presale_button=WebDriverWait(driver, 10).until(
                             EC.presence_of_element_located((By.XPATH, '/html/body/section/div/div[2]/div[4]/ul/li[3]/a'))
                         )
                 driver.execute_script("arguments[0].scrollIntoView();", presale_button)
 
-                presale_button.click()
+                presale_button.click()"""
+                presale_button=WebDriverWait(driver, 10).until(
+                            EC.presence_of_all_elements_located((By.CLASS_NAME, 'nav-link'))
+                        )
+                driver.execute_script("arguments[0].scrollIntoView();", presale_button[-1])
+
+                presale_button[-1].click()
                 break
-            except:
-                pass
+            except Exception as e :
+                print(f'e {e}')
+        try:
+            accept_cookies = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, 'js-cookie-consent-agree.cookie-consent__agree.btn.col-12'))
+            )
+            accept_cookies.click()
+            time.sleep(4)
+        except:
+            pass
         while True:
             try:
                 show_all_button=WebDriverWait(driver, 10).until(
@@ -108,14 +136,15 @@ def CoinGod():
                 show_all_button.click()
             except:
                 show_all_button=''
-            time.sleep(2)
-            if not show_all_button:
-                break
+                time.sleep(2)
+                if not show_all_button:
+                    break
         GetAllTokens(driver)
         for data in tokens_urls:
             GetTokenInfo(driver,data)
         driver.quit()
         return True
-    except Exception as e:
+    #except Exception as e:
         print(f'Error Occured in CoinsGod {e}')
         return False
+CoinGod()

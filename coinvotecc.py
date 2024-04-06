@@ -148,13 +148,16 @@ def Coinvote():
     try:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--headless=new")
-        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument("--headless")
+        #chrome_options.add_argument('--disable-dev-shm-usage')
         driver = webdriver.Chrome(options=chrome_options)
+        print(f'-------------------')
         cloudflarebypass(driver)
         driver.switch_to.window(driver.window_handles[0])
+        print(f'-------------------')
 
         pg=1
+        print(f'---------Getting----------')
 
         explored_urls=[]
         while True:

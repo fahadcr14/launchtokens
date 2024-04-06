@@ -184,7 +184,7 @@ def Getalltokens(driver):
                 chain_name=''
             # Find launch date upcoming date
             #try:                                                /html/body/section[5]/div[8]/div/div[1]/table/tbody/tr[1]/td[12]
-            launch_date_element = token.find_element(By.XPATH, f'./td[10]')
+            launch_date_element = token.find_element(By.XPATH, f'./td[9]')
             launch_date_text = launch_date_element.text.lower()
 
             #except:

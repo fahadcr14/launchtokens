@@ -63,7 +63,7 @@ def launch_verifier(launch_date):
             print("The launch date is within 1 month from today.")
             return upcoming_launch_date.strftime('%d %B %Y')
         else:
-            print(f"The launch date is not within 1 month from today. {upcoming_launch_date.strftime('%b %d %Y')} difference {difference.days}")
+            print(f"The launch date is not within 1 month from today.") #{upcoming_launch_date.strftime('%b %d %Y')} difference {difference.days}")
             return False
     except Exception as e:
         print(f'Launch date {launch_date}   :::{e}')

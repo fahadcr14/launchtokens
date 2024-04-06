@@ -14,3 +14,6 @@ def sort_by_date(df):
 
 df = pd.read_excel(r'cryptotokens.xlsx')
 sort_by_date(df)
+"""104.37.191.30
+KVM
+#3X%fx7S"""
